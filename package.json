@@ -1,0 +1,49 @@
+{
+  "name": "unexpected-enzyme",
+  "version": "0.0.0",
+  "description": "Plugin for Unexpected to use Enzyme to test React",
+  "main": "index.js",
+  "repository": "https://github.com/gertsonderby/unexpected-enzyme",
+  "author": "Gert Sønderby <gert.sonderby@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "enzyme": "^3.10.0",
+    "unexpected": "^11.6.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/register": "^7.4.4",
+    "enzyme": "^3.10.0",
+    "eslint": "^6.0.1",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.2.0",
+    "mocha": "^6.1.4",
+    "prettier": "1.18.2",
+    "unexpected": "^11.6.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint"
+    ]
+  },
+  "mocha": {
+    "require": [
+      "@babel/register",
+      "unexpected"
+    ],
+    "ui": "bdd"
+  }
+}
