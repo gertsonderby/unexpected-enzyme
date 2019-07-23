@@ -74,6 +74,12 @@ describe("Unexpected Enzyme plugin", () => {
           });
           expect(mockExpect.addAssertion, "to have a call satisfying", {
             args: [
+              "<ReactElement> [when] mounted <assertion?>",
+              expect.it("to be a function")
+            ]
+          });
+          expect(mockExpect.addAssertion, "to have a call satisfying", {
+            args: [
               "<EnzymeWrapper> to contain match of <ReactElement>",
               expect.it("to be a function")
             ]
@@ -82,7 +88,7 @@ describe("Unexpected Enzyme plugin", () => {
       ));
   });
 
-  describe("plugin types", () => {
+  describe("added types", () => {
     let testExpect;
     beforeEach(() => {
       testExpect = unexpected.clone().use(unexpectedEnzyme);
@@ -133,6 +139,24 @@ describe("Unexpected Enzyme plugin", () => {
             "EnzymeShallowWrapper"
           ));
       });
+
+      describe("<ReactElement> [when] mounted <assertion?>", () => {
+        it("fully renders the given React element", () =>
+          testExpect(
+            <div>This is a test</div>,
+            "when mounted",
+            "to be an",
+            "EnzymeMountWrapper"
+          ));
+
+        it("'when' is optional", () =>
+          testExpect(
+            <div>This is a test</div>,
+            "mounted",
+            "to be an",
+            "EnzymeMountWrapper"
+          ));
+      });
     });
 
     describe("EnzymeWrapper", () => {
@@ -151,6 +175,13 @@ describe("Unexpected Enzyme plugin", () => {
           () => testExpect(<div />, "to be an", "EnzymeWrapper"),
           "to throw"
         ));
+
+      // at(index)
+      // childAt()
+      // children()
+      // closest(selector)
+      // containsAllMatchingElements(nodes)
+      // containsAnyMatchingElements(nodes)
 
       describe("<EnzymeWrapper> to contain match of <ReactElement>", () => {
         it("checks for a matching component in the wrapper", () =>
@@ -200,6 +231,58 @@ describe("Unexpected Enzyme plugin", () => {
           "  1\n" +
           "</li>"));
       });
+
+      // contains(nodeOrNodes)
+      // context([key])
+      // debug()
+      // equals(node)
+      // every(selector)
+      // everyWhere(predicate)
+      // exists([selector])
+      // filter(selector)
+      // filterWhere(predicate)
+      // find(selector)
+      // findWhere(predicate)
+      // first()
+      // forEach(fn)
+      // get(index)
+      // getWrappingComponent()
+      // hasClass(className)
+      // hostNodes()
+      // html()
+      // instance()
+      // invoke(propName)
+      // isEmpty()
+      // isEmptyRender()
+      // is(selector)
+      // key()
+      // last()
+      // map(fn)
+      // matchesElement(node)
+      // name()
+      // not(selector)
+      // parent()
+      // parents()
+      // prop(key)
+      // props()
+      // reduce(fn[, initialValue])
+      // reduceRight(fn[, initialValue])
+      // render()
+      // renderProp(key)
+      // setContext(context)
+      // setState(nextState[, callback])
+      // simulateError(error)
+      // simulate(event[, data])
+      // slice([begin[, end]])
+      // some(selector)
+      // someWhere(predicate)
+      // state([key])
+      // tap(intercepter)
+      // text()
+      // type()
+      // unmount()
+      // update()
+
     });
 
     describe("EnzymeShallowWrapper", () => {
@@ -219,6 +302,12 @@ describe("Unexpected Enzyme plugin", () => {
           () => testExpect(<div />, "to be an", "EnzymeShallowWrapper"),
           "to throw"
         ));
+
+        // dive()
+        // getElement(index)
+        // getElements(index)
+        // setProps(nextProps)
+        // shallow([options])
     });
 
     describe("EnzymeMountWrapper", () => {
@@ -237,6 +326,12 @@ describe("Unexpected Enzyme plugin", () => {
           () => testExpect(<div />, "to be an", "EnzymeMountWrapper"),
           "to throw"
         ));
+
+        // detach()
+        // getDOMNode()
+        // mount()
+        // ref(refName)
+        // setProps(nextProps[, callback])
     });
   });
 });

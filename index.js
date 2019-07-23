@@ -34,6 +34,10 @@ module.exports = {
       (expect, subject) => expect.shift(enzyme.shallow(subject))
     );
     expect.addAssertion(
+      "<ReactElement> [when] mounted <assertion?>",
+      (expect, subject) => expect.shift(enzyme.mount(subject))
+    )
+    expect.addAssertion(
       "<EnzymeWrapper> to contain match of <ReactElement>",
       (expect, subject, pattern) =>
         expect(subject.containsMatchingElement(pattern), "to be true")
