@@ -3,7 +3,7 @@ import sinon from "sinon";
 import unexpected from "unexpected";
 import unexpectedSinon from "unexpected-sinon";
 import unexpectedEnzyme from "./index";
-import { shallow, mount, render, configure } from "enzyme";
+import { shallow, mount, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });
@@ -15,7 +15,7 @@ describe("Unexpected Enzyme plugin", () => {
     expect(unexpectedEnzyme, "to be an object").and("to satisfy", {
       name: expect.it("to be a string"),
       version: expect.it("to be a string").and("to match", /^\d+.\d+.\d+/),
-      installInto: expect.it("to be a function")
+      installInto: expect.it("to be a function"),
     }));
 
   describe("installInto", () => {
@@ -35,56 +35,56 @@ describe("Unexpected Enzyme plugin", () => {
             args: [
               {
                 name: "ReactElement",
-                identify: expect.it("to be a function")
-              }
-            ]
+                identify: expect.it("to be a function"),
+              },
+            ],
           });
           expect(mockExpect.addType, "to have a call satisfying", {
             args: [
               {
                 name: "EnzymeWrapper",
-                identify: expect.it("to be a function")
-              }
-            ]
+                identify: expect.it("to be a function"),
+              },
+            ],
           });
           expect(mockExpect.addType, "to have a call satisfying", {
             args: [
               {
                 name: "EnzymeShallowWrapper",
                 identify: expect.it("to be a function"),
-                base: "EnzymeWrapper"
-              }
-            ]
+                base: "EnzymeWrapper",
+              },
+            ],
           });
           expect(mockExpect.addType, "to have a call satisfying", {
             args: [
               {
                 name: "EnzymeMountWrapper",
                 identify: expect.it("to be a function"),
-                base: "EnzymeWrapper"
-              }
-            ]
+                base: "EnzymeWrapper",
+              },
+            ],
           });
 
           expect(mockExpect.addAssertion, "to have a call satisfying", {
             args: [
               "<ReactElement> [when] shallow rendered <assertion?>",
-              expect.it("to be a function")
-            ]
+              expect.it("to be a function"),
+            ],
           });
           expect(mockExpect.addAssertion, "to have a call satisfying", {
             args: [
               "<ReactElement> [when] mounted <assertion?>",
-              expect.it("to be a function")
-            ]
+              expect.it("to be a function"),
+            ],
           });
           expect(mockExpect.addAssertion, "to have a call satisfying", {
             args: [
               "<EnzymeWrapper> to contain match of <ReactElement>",
-              expect.it("to be a function")
-            ]
+              expect.it("to be a function"),
+            ],
           });
-        }
+        },
       ));
   });
 
@@ -98,28 +98,28 @@ describe("Unexpected Enzyme plugin", () => {
       it("identifies ReactElement", () =>
         expect(
           () => testExpect(<div />, "to be a", "ReactElement"),
-          "not to throw"
+          "not to throw",
         ));
       it("identifies ReactElement", () =>
         expect(
           () => testExpect("<div/>", "to be a", "ReactElement"),
-          "to throw"
+          "to throw",
         ));
       it("identifies ReactElement", () =>
         expect(
           () =>
             testExpect({ $$type: "react.element" }, "to be a", "ReactElement"),
-          "to throw"
+          "to throw",
         ));
       it("identifies ReactElement", () =>
         expect(
           () => testExpect(shallow(<div />), "to be a", "ReactElement"),
-          "to throw"
+          "to throw",
         ));
       it("identifies ReactElement", () =>
         expect(
           () => testExpect(mount(<div />), "to be a", "ReactElement"),
-          "to throw"
+          "to throw",
         ));
 
       describe("<ReactElement> [when] shallow rendered <assertion?>", () => {
@@ -128,7 +128,7 @@ describe("Unexpected Enzyme plugin", () => {
             <div>This is a test</div>,
             "when shallow rendered",
             "to be an",
-            "EnzymeShallowWrapper"
+            "EnzymeShallowWrapper",
           ));
 
         it("'when' is optional", () =>
@@ -136,7 +136,7 @@ describe("Unexpected Enzyme plugin", () => {
             <div>This is a test</div>,
             "shallow rendered",
             "to be an",
-            "EnzymeShallowWrapper"
+            "EnzymeShallowWrapper",
           ));
       });
 
@@ -146,7 +146,7 @@ describe("Unexpected Enzyme plugin", () => {
             <div>This is a test</div>,
             "when mounted",
             "to be an",
-            "EnzymeMountWrapper"
+            "EnzymeMountWrapper",
           ));
 
         it("'when' is optional", () =>
@@ -154,7 +154,7 @@ describe("Unexpected Enzyme plugin", () => {
             <div>This is a test</div>,
             "mounted",
             "to be an",
-            "EnzymeMountWrapper"
+            "EnzymeMountWrapper",
           ));
       });
     });
@@ -163,17 +163,17 @@ describe("Unexpected Enzyme plugin", () => {
       it("identifies EnzymeWrapper", () =>
         expect(
           () => testExpect(shallow(<div />), "to be an", "EnzymeWrapper"),
-          "not to throw"
+          "not to throw",
         ));
       it("identifies EnzymeWrapper", () =>
         expect(
           () => testExpect(mount(<div />), "to be an", "EnzymeWrapper"),
-          "not to throw"
+          "not to throw",
         ));
       it("identifies EnzymeWrapper", () =>
         expect(
           () => testExpect(<div />, "to be an", "EnzymeWrapper"),
-          "to throw"
+          "to throw",
         ));
 
       // at(index)
@@ -193,43 +193,48 @@ describe("Unexpected Enzyme plugin", () => {
                 <li>
                   <a href="#3">Three</a>
                 </li>
-              </ul>
+              </ul>,
             ),
             "to contain match of",
-            <li>2</li>
+            <li>2</li>,
           ));
 
         it("fails if no match", () =>
-          expect(() => testExpect(
-            shallow(
-              <ul>
-                <li>One</li>
-                <li>2</li>
-                <li>
-                  <a href="#3">Three</a>
-                </li>
-              </ul>
-            ),
-            "to contain match of",
-            <li>1</li>
-          ), "to throw", "expected\n" +
-          "<ul>\n" +
-          "  <li>\n" +
-          "    One\n" +
-          "  </li>\n" +
-          "  <li>\n" +
-          "    2\n" +
-          "  </li>\n" +
-          "  <li>\n" +
-          "    <a href=\"#3\">\n" +
-          "      Three\n" +
-          "    </a>\n" +
-          "  </li>\n" +
-          "</ul>\n" +
-          "to contain match of\n" +
-          "<li>\n" +
-          "  1\n" +
-          "</li>"));
+          expect(
+            () =>
+              testExpect(
+                shallow(
+                  <ul>
+                    <li>One</li>
+                    <li>2</li>
+                    <li>
+                      <a href="#3">Three</a>
+                    </li>
+                  </ul>,
+                ),
+                "to contain match of",
+                <li>1</li>,
+              ),
+            "to throw",
+            "expected\n" +
+              "<ul>\n" +
+              "  <li>\n" +
+              "    One\n" +
+              "  </li>\n" +
+              "  <li>\n" +
+              "    2\n" +
+              "  </li>\n" +
+              "  <li>\n" +
+              '    <a href="#3">\n' +
+              "      Three\n" +
+              "    </a>\n" +
+              "  </li>\n" +
+              "</ul>\n" +
+              "to contain match of\n" +
+              "<li>\n" +
+              "  1\n" +
+              "</li>",
+          ));
       });
 
       // contains(nodeOrNodes)
@@ -282,7 +287,6 @@ describe("Unexpected Enzyme plugin", () => {
       // type()
       // unmount()
       // update()
-
     });
 
     describe("EnzymeShallowWrapper", () => {
@@ -290,48 +294,48 @@ describe("Unexpected Enzyme plugin", () => {
         expect(
           () =>
             testExpect(shallow(<div />), "to be an", "EnzymeShallowWrapper"),
-          "not to throw"
+          "not to throw",
         ));
       it("identifies EnzymeShallowWrapper", () =>
         expect(
           () => testExpect(mount(<div />), "to be an", "EnzymeShallowWrapper"),
-          "to throw"
+          "to throw",
         ));
       it("identifies EnzymeShallowWrapper", () =>
         expect(
           () => testExpect(<div />, "to be an", "EnzymeShallowWrapper"),
-          "to throw"
+          "to throw",
         ));
 
-        // dive()
-        // getElement(index)
-        // getElements(index)
-        // setProps(nextProps)
-        // shallow([options])
+      // dive()
+      // getElement(index)
+      // getElements(index)
+      // setProps(nextProps)
+      // shallow([options])
     });
 
     describe("EnzymeMountWrapper", () => {
       it("identifies EnzymeMountWrapper", () =>
         expect(
           () => testExpect(mount(<div />), "to be an", "EnzymeMountWrapper"),
-          "not to throw"
+          "not to throw",
         ));
       it("identifies EnzymeMountWrapper", () =>
         expect(
           () => testExpect(shallow(<div />), "to be an", "EnzymeMountWrapper"),
-          "to throw"
+          "to throw",
         ));
       it("identifies EnzymeMountWrapper", () =>
         expect(
           () => testExpect(<div />, "to be an", "EnzymeMountWrapper"),
-          "to throw"
+          "to throw",
         ));
 
-        // detach()
-        // getDOMNode()
-        // mount()
-        // ref(refName)
-        // setProps(nextProps[, callback])
+      // detach()
+      // getDOMNode()
+      // mount()
+      // ref(refName)
+      // setProps(nextProps[, callback])
     });
   });
 });
