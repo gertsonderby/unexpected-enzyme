@@ -65,25 +65,6 @@ describe("Unexpected Enzyme plugin", () => {
               },
             ],
           });
-
-          expect(mockExpect.addAssertion, "to have a call satisfying", {
-            args: [
-              "<ReactElement> [when] shallow rendered <assertion?>",
-              expect.it("to be a function"),
-            ],
-          });
-          expect(mockExpect.addAssertion, "to have a call satisfying", {
-            args: [
-              "<ReactElement> [when] mounted <assertion?>",
-              expect.it("to be a function"),
-            ],
-          });
-          expect(mockExpect.addAssertion, "to have a call satisfying", {
-            args: [
-              "<EnzymeWrapper> to contain match of <ReactElement>",
-              expect.it("to be a function"),
-            ],
-          });
         },
       ));
   });
