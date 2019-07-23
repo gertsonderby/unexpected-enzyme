@@ -10,6 +10,13 @@ configure({ adapter: new Adapter() });
 
 const expect = unexpected.clone().use(unexpectedSinon);
 
+const TestFuncComp = () => <div />;
+class TestClassComp extends React.Component {
+  render() {
+    return <div />;
+  }
+}
+
 describe("Unexpected Enzyme plugin", () => {
   it("is a plugin", () =>
     expect(unexpectedEnzyme, "to be an object").and("to satisfy", {
@@ -79,6 +86,16 @@ describe("Unexpected Enzyme plugin", () => {
       it("identifies ReactElement", () =>
         expect(
           () => testExpect(<div />, "to be a", "ReactElement"),
+          "not to throw",
+        ));
+      it("identifies ReactElement", () =>
+        expect(
+          () => testExpect(<TestFuncComp />, "to be a", "ReactElement"),
+          "not to throw",
+        ));
+      it("identifies ReactElement", () =>
+        expect(
+          () => testExpect(<TestClassComp />, "to be a", "ReactElement"),
           "not to throw",
         ));
       it("identifies ReactElement", () =>
