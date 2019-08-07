@@ -10,7 +10,7 @@ module.exports = {
     expect.addType({
       name: "ReactElement",
       identify: value => value["$$typeof"] === Symbol.for("react.element"),
-      inspect: value => elmToJSX(value),
+      inspect: value => elmToJSX(value, { maxInlineAttributesLineLength: 80 }),
     });
     expect.addType({
       name: "EnzymeWrapper",
@@ -38,9 +38,22 @@ module.exports = {
       (expect, subject) => expect.shift(enzyme.mount(subject)),
     );
     expect.addAssertion(
-      "<EnzymeWrapper> to contain match of <ReactElement>",
+      "<EnzymeWrapper> to equal <ReactElement>",
+      (expect, subject, pattern) => expect(subject.equals(pattern), "to be ok"),
+    );
+    expect.addAssertion(
+      "<EnzymeWrapper> to satisfy <ReactElement>",
       (expect, subject, pattern) =>
-        expect(subject.containsMatchingElement(pattern), "to be true"),
+        expect(subject.containsMatchingElement(pattern), "to be ok"),
+    );
+
+    expect.addAssertion(
+      "<EnzymeWrapper> [taking] node at <number> <assertion?>",
+      (expect, subject, index) => expect.shift(subject.at(index)),
+    );
+    expect.addAssertion(
+      "<EnzymeWrapper> [taking] child node at <number> <assertion?>",
+      (expect, subject, index) => expect.shift(subject.childAt(index)),
     );
   },
 };
