@@ -1,9 +1,7 @@
 {
-  "require": [
-    "@babel/register",
-    "jsdom-global/register"
-  ],
+  "require": ["@babel/register", "jsdom-global/register"],
   "ui": "bdd",
-  "exclude": ["node_modules", "coverage"],
-  "recursive": true
+  "ignore": ["./node_modules/**/*", "./coverage/**/*", "./.git/**/*"],
+  "recursive": true,
+  "spec": "./**/*.test.js"
 }
