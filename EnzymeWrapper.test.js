@@ -92,12 +92,181 @@ describe("EnzymeWrapper", () => {
       ));
   });
 
-  // children()
+  describe("<EnzymeWrapper> has children <assertion?>", () => {
+    it("fetches the children of a shallow render", () =>
+      testExpect(
+        shallow(
+          <ul>
+            <li>Test1</li>
+            <li>Test2</li>
+            <li>Test3</li>
+          </ul>,
+        ),
+        "has children",
+      ).then(children =>
+        expect(
+          children.debug(),
+          "to equal",
+          "<li>\n" +
+            "  Test1\n" +
+            "</li>\n\n\n" +
+            "<li>\n" +
+            "  Test2\n" +
+            "</li>\n\n\n" +
+            "<li>\n" +
+            "  Test3\n" +
+            "</li>",
+        ),
+      ));
+
+    it("fetches the children of a mount", () =>
+      testExpect(
+        mount(
+          <ul>
+            <li>Test1</li>
+            <li>Test2</li>
+            <li>Test3</li>
+          </ul>,
+        ),
+        "has children",
+      ).then(children =>
+        expect(
+          children.debug(),
+          "to equal",
+          "<li>\n" +
+            "  Test1\n" +
+            "</li>\n\n\n" +
+            "<li>\n" +
+            "  Test2\n" +
+            "</li>\n\n\n" +
+            "<li>\n" +
+            "  Test3\n" +
+            "</li>",
+        ),
+      ));
+  });
+
+  describe("<EnzymeWrapper> has children matching selector <string|function> <assertion?>", () => {
+    it("fetches the children of a shallow render with css selector", () =>
+      testExpect(
+        shallow(
+          <ul>
+            <li className="red">Test1</li>
+            <li className="green">Test2</li>
+            <li className="blue">Test3</li>
+          </ul>,
+        ),
+        "has children matching selector",
+        ".green",
+      ).then(children =>
+        expect(
+          children.debug(),
+          "to equal",
+          '<li className="green">\n  Test2\n</li>',
+        ),
+      ));
+
+    it("fetches the children of a shallow render with component selector", () => {
+      const Li = ({ ...props }) => <li {...props} />;
+      return testExpect(
+        shallow(
+          <ul>
+            <Li>Test1</Li>
+            <li>Test2</li>
+            <li>Test3</li>
+          </ul>,
+        ),
+        "has children matching selector",
+        Li,
+      ).then(children =>
+        expect(children.debug(), "to equal", "<Li>\n  Test1\n</Li>"),
+      );
+    });
+
+    it("fetches the children of a shallow render with displayname selector", () => {
+      const Li = ({ ...props }) => <li {...props} />;
+      return testExpect(
+        shallow(
+          <ul>
+            <Li>Test1</Li>
+            <li>Test2</li>
+            <li>Test3</li>
+          </ul>,
+        ),
+        "has children matching selector",
+        "Li",
+      ).then(children =>
+        expect(children.debug(), "to equal", "<Li>\n  Test1\n</Li>"),
+      );
+    });
+
+    it("fetches the children of a mount with css selector", () =>
+      testExpect(
+        mount(
+          <ul>
+            <li className="red">Test1</li>
+            <li className="green">Test2</li>
+            <li className="blue">Test3</li>
+          </ul>,
+        ),
+        "has children matching selector",
+        ".green",
+      ).then(children =>
+        expect(
+          children.debug(),
+          "to equal",
+          '<li className="green">\n  Test2\n</li>',
+        ),
+      ));
+
+    it("fetches the children of a mount with component selector", () => {
+      const Li = ({ ...props }) => <li {...props} />;
+      return testExpect(
+        mount(
+          <ul>
+            <Li>Test1</Li>
+            <li>Test2</li>
+            <li>Test3</li>
+          </ul>,
+        ),
+        "has children matching selector",
+        Li,
+      ).then(children =>
+        expect(
+          children.debug(),
+          "to equal",
+          "<Li>\n  <li>\n    Test1\n  </li>\n</Li>",
+        ),
+      );
+    });
+
+    it("fetches the children of a mount with displayname selector", () => {
+      const Li = ({ ...props }) => <li {...props} />;
+      return testExpect(
+        mount(
+          <ul>
+            <Li>Test1</Li>
+            <li>Test2</li>
+            <li>Test3</li>
+          </ul>,
+        ),
+        "has children matching selector",
+        "Li",
+      ).then(children =>
+        expect(
+          children.debug(),
+          "to equal",
+          "<Li>\n  <li>\n    Test1\n  </li>\n</Li>",
+        ),
+      );
+    });
+  });
+
   // closest(selector)
   // containsAllMatchingElements(nodes)
   // containsAnyMatchingElements(nodes)
 
-  describe("<EnzymeWrapper> to satisfy <ReactElement>", () => {
+  describe("<EnzymeWrapper> to contain match of <ReactElement>", () => {
     it("checks for a matching component in the wrapper", () =>
       testExpect(
         shallow(
@@ -109,7 +278,7 @@ describe("EnzymeWrapper", () => {
             </li>
           </ul>,
         ),
-        "to satisfy",
+        "to contain match of",
         <li>2</li>,
       ));
 
@@ -126,7 +295,7 @@ describe("EnzymeWrapper", () => {
                 </li>
               </ul>,
             ),
-            "to satisfy",
+            "to contain match of",
             <li>1</li>,
           ),
         "to throw",
@@ -144,7 +313,7 @@ describe("EnzymeWrapper", () => {
           "    </a>\n" +
           "  </li>\n" +
           "</ul>\n" +
-          "to satisfy\n" +
+          "to contain match of\n" +
           "<li>\n" +
           "  1\n" +
           "</li>",

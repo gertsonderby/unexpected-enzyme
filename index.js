@@ -42,9 +42,17 @@ module.exports = {
       (expect, subject, pattern) => expect(subject.equals(pattern), "to be ok"),
     );
     expect.addAssertion(
-      "<EnzymeWrapper> to satisfy <ReactElement>",
+      "<EnzymeWrapper> to contain match of <ReactElement>",
       (expect, subject, pattern) =>
         expect(subject.containsMatchingElement(pattern), "to be ok"),
+    );
+    expect.addAssertion(
+      "<EnzymeWrapper> has children <assertion?>",
+      (expect, subject) => expect.shift(subject.children()),
+    );
+    expect.addAssertion(
+      "<EnzymeWrapper> has children matching selector <string|function> <assertion?>",
+      (expect, subject, selector) => expect.shift(subject.children(selector)),
     );
 
     expect.addAssertion(
