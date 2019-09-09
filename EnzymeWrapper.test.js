@@ -5,6 +5,26 @@ import { shallow, mount } from "enzyme";
 
 const expect = unexpected.clone();
 
+// const TestContext = React.createContext({ a: 1, b: 2 });
+
+// const TestCompF = () => <div />;
+
+// class TestCompC extends React.Component {
+//   render() {
+//     return (
+//       <TestContext.Consumer>
+//         {({ a, b }) => (
+//           <div>
+//             a: {a}
+//             <br />
+//             b: {b}
+//           </div>
+//         )}
+//       </TestContext.Consumer>
+//     );
+//   }
+// }
+
 describe("EnzymeWrapper", () => {
   let testExpect;
   beforeEach(() => {
@@ -16,11 +36,13 @@ describe("EnzymeWrapper", () => {
       () => testExpect(shallow(<div />), "to be an", "EnzymeWrapper"),
       "not to throw",
     ));
+
   it("identifies EnzymeWrapper", () =>
     expect(
       () => testExpect(mount(<div />), "to be an", "EnzymeWrapper"),
       "not to throw",
     ));
+
   it("identifies EnzymeWrapper", () =>
     expect(() => testExpect(<div />, "to be an", "EnzymeWrapper"), "to throw"));
 
@@ -272,7 +294,7 @@ describe("EnzymeWrapper", () => {
         shallow(
           <ul>
             <li>One</li>
-            <li>2</li>
+            <li foo={true}>2</li>
             <li>
               <a href="#3">Three</a>
             </li>
@@ -320,7 +342,94 @@ describe("EnzymeWrapper", () => {
       ));
   });
 
-  // contains(nodeOrNodes)
+  describe("<EnzymeWrapper> to contain <ReactElement>", () => {
+    it("checks for the exact component in the wrapper", () =>
+      testExpect(
+        shallow(
+          <ul>
+            <li>One</li>
+            <li foo={true}>2</li>
+            <li>
+              <a href="#3">Three</a>
+            </li>
+          </ul>,
+        ),
+        "to contain",
+        <li foo={true}>2</li>,
+      ));
+
+    it("fails if match not exact", () =>
+      expect(
+        () =>
+          testExpect(
+            shallow(
+              <ul>
+                <li>One</li>
+                <li foo={true}>2</li>
+                <li>
+                  <a href="#3">Three</a>
+                </li>
+              </ul>,
+            ),
+            "to contain",
+            <li>2</li>,
+          ),
+        "to throw",
+        "expected\n" +
+          "<ul>\n" +
+          "  <li>\n" +
+          "    One\n" +
+          "  </li>\n" +
+          "  <li foo={true}>\n" +
+          "    2\n" +
+          "  </li>\n" +
+          "  <li>\n" +
+          '    <a href="#3">\n' +
+          "      Three\n" +
+          "    </a>\n" +
+          "  </li>\n" +
+          "</ul>\n" +
+          "to contain\n" +
+          "<li>\n" +
+          "  2\n" +
+          "</li>",
+      ));
+
+    it("fails if children don't match", () =>
+      expect(
+        () =>
+          testExpect(
+            shallow(
+              <ul>
+                <li>One</li>
+                <li>2</li>
+                <li>
+                  <a href="#3">Three</a>
+                </li>
+              </ul>,
+            ),
+            "to contain",
+            <li></li>,
+          ),
+        "to throw",
+        "expected\n" +
+          "<ul>\n" +
+          "  <li>\n" +
+          "    One\n" +
+          "  </li>\n" +
+          "  <li>\n" +
+          "    2\n" +
+          "  </li>\n" +
+          "  <li>\n" +
+          '    <a href="#3">\n' +
+          "      Three\n" +
+          "    </a>\n" +
+          "  </li>\n" +
+          "</ul>\n" +
+          "to contain <li />",
+      ));
+  });
+
   // context([key])
   // debug()
 

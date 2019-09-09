@@ -23,28 +23,34 @@ describe("ReactElement", () => {
       () => testExpect(<div />, "to be a", "ReactElement"),
       "not to throw",
     ));
+
   it("identifies ReactElement", () =>
     expect(
       () => testExpect(<TestFuncComp />, "to be a", "ReactElement"),
       "not to throw",
     ));
+
   it("identifies ReactElement", () =>
     expect(
       () => testExpect(<TestClassComp />, "to be a", "ReactElement"),
       "not to throw",
     ));
+
   it("identifies ReactElement", () =>
     expect(() => testExpect("<div/>", "to be a", "ReactElement"), "to throw"));
+
   it("identifies ReactElement", () =>
     expect(
       () => testExpect({ $$type: "react.element" }, "to be a", "ReactElement"),
       "to throw",
     ));
+
   it("identifies ReactElement", () =>
     expect(
       () => testExpect(shallow(<div />), "to be a", "ReactElement"),
       "to throw",
     ));
+
   it("identifies ReactElement", () =>
     expect(
       () => testExpect(mount(<div />), "to be a", "ReactElement"),
@@ -69,6 +75,26 @@ describe("ReactElement", () => {
       ));
   });
 
+  describe("<ReactElement> [when] shallow rendered with options <object> <assertion?>", () => {
+    it("shallow renders the given React element", () =>
+      testExpect(
+        <div>This is a test</div>,
+        "when shallow rendered with options",
+        { context: { foo: "bar" } },
+        "to be an",
+        "EnzymeShallowWrapper",
+      ));
+
+    it("'when' is optional", () =>
+      testExpect(
+        <div>This is a test</div>,
+        "shallow rendered with options",
+        { context: { foo: "bar" } },
+        "to be an",
+        "EnzymeShallowWrapper",
+      ));
+  });
+
   describe("<ReactElement> [when] mounted <assertion?>", () => {
     it("fully renders the given React element", () =>
       testExpect(
@@ -82,6 +108,26 @@ describe("ReactElement", () => {
       testExpect(
         <div>This is a test</div>,
         "mounted",
+        "to be an",
+        "EnzymeMountWrapper",
+      ));
+  });
+
+  describe("<ReactElement> [when] mounted with options <object> <assertion?>", () => {
+    it("fully renders the given React element", () =>
+      testExpect(
+        <div>This is a test</div>,
+        "when mounted with options",
+        { context: { foo: "bar" } },
+        "to be an",
+        "EnzymeMountWrapper",
+      ));
+
+    it("'when' is optional", () =>
+      testExpect(
+        <div>This is a test</div>,
+        "mounted with options",
+        { context: { foo: "bar" } },
         "to be an",
         "EnzymeMountWrapper",
       ));

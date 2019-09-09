@@ -34,8 +34,18 @@ module.exports = {
       (expect, subject) => expect.shift(enzyme.shallow(subject)),
     );
     expect.addAssertion(
+      "<ReactElement> [when] shallow rendered with options <object> <assertion?>",
+      (expect, subject, options) =>
+        expect.shift(enzyme.shallow(subject, options)),
+    );
+    expect.addAssertion(
       "<ReactElement> [when] mounted <assertion?>",
       (expect, subject) => expect.shift(enzyme.mount(subject)),
+    );
+    expect.addAssertion(
+      "<ReactElement> [when] mounted with options <object> <assertion?>",
+      (expect, subject, options) =>
+        expect.shift(enzyme.mount(subject, options)),
     );
     expect.addAssertion(
       "<EnzymeWrapper> to equal <ReactElement>",
@@ -45,6 +55,11 @@ module.exports = {
       "<EnzymeWrapper> to contain match of <ReactElement>",
       (expect, subject, pattern) =>
         expect(subject.containsMatchingElement(pattern), "to be ok"),
+    );
+    expect.addAssertion(
+      "<EnzymeWrapper> to contain <ReactElement>",
+      (expect, subject, pattern) =>
+        expect(subject.contains(pattern), "to be ok"),
     );
     expect.addAssertion(
       "<EnzymeWrapper> has children <assertion?>",
